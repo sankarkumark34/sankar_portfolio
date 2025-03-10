@@ -1,50 +1,64 @@
-import Link from "next/link"
+"use client"
+
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Download } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
 
 export default function Hero() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-      <div className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Hi, I'm <span className="text-primary">Sankarkumar</span>
+    <div className="relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 dot-pattern opacity-10" />
+      
+      <div className="container relative py-20 md:py-32">
+        <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                <span className="gradient-text">Full Stack Developer</span>
+                <br />& UI Designer
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                Full Stack Developer specializing in building exceptional digital experiences
+              <p className="text-xl text-muted-foreground md:text-2xl">
+                Building beautiful & functional web experiences with modern technologies.
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link href="/projects">
-                <Button className="gap-1">
-                  View My Work
-                  <ArrowRight className="h-4 w-4" />
+                <Button size="lg" className="w-full sm:w-auto">
+                  View Projects
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/resume">
-                <Button variant="outline" className="gap-1">
-                  Download Resume
-                  <Download className="h-4 w-4" />
+              <Link href="/contact">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Contact Me
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            <div className="relative aspect-square overflow-hidden rounded-full border-8 border-muted bg-muted md:w-[350px]">
-              <img
-                src="/placeholder.svg?height=400&width=400"
-                alt="Profile"
-                className="object-cover"
-                width={400}
-                height={400}
-              />
+
+          <div className="relative">
+            <div className="animate-float">
+              <div className="relative aspect-square overflow-hidden rounded-full border-8 border-background shadow-2xl">
+                <Image
+                  src="/avatar.jpg"
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
+            
+            {/* Decorative elements */}
+            <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 blur-3xl" />
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 

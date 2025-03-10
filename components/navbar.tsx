@@ -1,94 +1,67 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-
-const navItems = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Skills", path: "/skills" },
-  { name: "Projects", path: "/projects" },
-  { name: "Resume", path: "/resume" },
-  { name: "Contact", path: "/contact" },
-]
+import { ModeToggle } from "@/components/mode-toggle"
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const [isScrolled, setIsScrolled] = React.useState(false)
 
-  useEffect(() => {
-    setMounted(true)
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold">Portfolio</span>
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      isScrolled ? "glass-effect border-b py-4" : "bg-transparent py-6"
+    )}>
+      <div className="container flex items-center justify-between">
+        <Link href="/" className="text-2xl font-bold tracking-tighter">
+          <span className="gradient-text">Sankar</span>
         </Link>
-
-        {/* Desktop navigation */}
-        <nav className="hidden md:flex md:gap-6">
-          {navItems.map((item) => (
+        <nav className="hidden md:flex items-center gap-6">
+          {[
+            ["About", "/about"],
+            ["Skills", "/skills"],
+            ["Projects", "/projects"],
+            ["Resume", "/resume"],
+            ["Contact", "/contact"],
+          ].map(([label, href]) => (
             <Link
-              key={item.path}
-              href={item.path}
+              key={href}
+              href={href}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-primary",
-                pathname === item.path ? "text-primary" : "text-muted-foreground",
+                pathname === href
+                  ? "text-foreground"
+                  : "text-muted-foreground"
               )}
             >
-              {item.name}
+              {label}
             </Link>
           ))}
         </nav>
-
-        <div className="flex items-center gap-2">
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle theme"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-          )}
-
-          {/* Mobile menu button */}
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden md:inline-flex"
+            asChild
+          >
+            <Link href="/contact">Hire Me</Link>
           </Button>
         </div>
       </div>
-
-      {/* Mobile navigation */}
-      {mobileMenuOpen && (
-        <div className="md:hidden">
-          <div className="container py-4 space-y-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                href={item.path}
-                className={cn(
-                  "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.path ? "text-primary" : "text-muted-foreground",
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
     </header>
   )
 }
