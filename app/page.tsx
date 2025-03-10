@@ -2,7 +2,7 @@ import Hero from "@/components/hero"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Portfolio | Home",
+  title: "Sankar Portfolio",
   description: "My professional portfolio showcasing my skills and projects",
 }
 

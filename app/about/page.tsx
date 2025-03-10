@@ -16,7 +16,7 @@ export default function AboutPage() {
       <div className="grid gap-8 md:grid-cols-[2fr_1fr]">
         <div className="space-y-6">
           <p className="text-lg text-muted-foreground">
-            Hello! I'm John Doe, a passionate full-stack developer with over 5 years of experience building web
+            Sankar, a passionate full-stack developer with over 5 years of experience building web
             applications. I enjoy creating elegant solutions to complex problems and am constantly learning new
             technologies to stay at the forefront of web development.
           </p>
